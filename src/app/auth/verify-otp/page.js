@@ -47,9 +47,26 @@ function VerifyOtpContent() {
     return null;
   }
 
+  if (!mobile) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 px-4 py-8">
+        <div className="w-full max-w-md rounded-3xl bg-white/90 p-8 shadow-2xl backdrop-blur-sm text-center">
+          <div className="text-red-600 mb-4">⚠️ Invalid access</div>
+          <p className="text-sm text-zinc-600 mb-4">No mobile number found. Please send OTP first.</p>
+          <Link
+            href="/auth/send"
+            className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+          >
+            Send OTP
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-sky-50 to-emerald-50 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white/80 p-8 shadow-xl backdrop-blur">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 px-4 py-8">
+      <div className="w-full max-w-md rounded-3xl bg-white/90 p-8 shadow-2xl backdrop-blur-sm">
         <h1 className="text-2xl font-semibold text-zinc-900">Verify OTP</h1>
         <p className="mt-1 text-sm text-zinc-600">
           Enter the OTP sent to {mobile}
@@ -59,7 +76,7 @@ function VerifyOtpContent() {
           <OtpInput value={otp} onChange={setOtp} />
 
           {error && (
-            <div className="rounded-lg border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-700">
+            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
               {error}
             </div>
           )}
@@ -80,7 +97,7 @@ function VerifyOtpContent() {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-zinc-500">
+        <div className="mt-6 text-center text-sm text-zinc-600">
           <Link
             href="/auth/send"
             className="text-indigo-600 hover:text-indigo-700"
@@ -90,6 +107,21 @@ function VerifyOtpContent() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyOtpPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 px-4 py-8">
+        <div className="w-full max-w-md rounded-3xl bg-white/90 p-8 shadow-2xl backdrop-blur-sm text-center">
+          <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent mb-4" />
+          <p className="text-sm text-zinc-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <VerifyOtpContent />
+    </Suspense>
   );
 }
 
